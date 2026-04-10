@@ -1,0 +1,18 @@
+{
+  "name": "cmd",
+  "version": "1.0.0",
+  "description": "An API built with Express & node.js to allow interacting with the system shell in browsers through HTTP.",
+  "main": "main.js",
+  "scripts": {
+    "start": "node ./main.js"
+  },
+  "keywords": [],
+  "author": "Johnathan",
+  "license": "Apache",
+  "type": "module",
+  "dependencies": {
+    "child_process": "^1.0.2",
+    "cors": "^2.8.6",
+    "express": "^5.2.1"
+  }
+}
