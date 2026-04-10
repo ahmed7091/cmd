@@ -97,7 +97,7 @@ In the global build, there isn't a build needed, you just need Wi-Fi connection 
 ```python
 from requests import post, Response
 
-usr: str = "https://cmd-api.up.railway.app"
+url: str = "https://cmd-api.up.railway.app"
 
 data: Response = post(url, json={
     "cmd": <command>,
