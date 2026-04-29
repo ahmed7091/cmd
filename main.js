@@ -45,6 +45,12 @@ app.post("/", (req, res) => {
       cmdArr.slice(1),
       { shell, cwd },
     );
+  } else {
+    return res.status(400).json({
+      error: `Unexpected type for "cmd" argument: ${typeof cmd}`,
+      code: 1,
+      status: 400,
+    })
   }
 
   // Runs if the response took more than <timeout> milliseconds.
