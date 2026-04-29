@@ -1,6 +1,7 @@
 import express from "express";
 import { spawn } from "child_process";
 import cors from "cors";
+import { type } from "os";
 
 const app = express();
 const port = 3000;
@@ -23,9 +24,6 @@ app.post("/", (req, res) => {
   }
 
   const cmd = req.body.cmd;
-  let args = req.body.args || [];
-  if (!Array.isArray(args)) args = [];
-
   const timeout = +req.query.timeout || 3e4;
   const cwd = req.body.cwd || process.cwd();
 
@@ -33,11 +31,21 @@ app.post("/", (req, res) => {
   const fmt = (txt) =>
     String(txt)
       .trim()
-      .replace(/\\n/g, String.fromCharCode(10))
-      .replace(/\t/g, "     ");
+      .replace(/\\n/g, String.fromCharCode(10));
 
   const shell = req.body.shell === "true";
-  const child = spawn(cmd, args, { shell, cwd });
+  let child;
+
+  if (Array.isArray(cmd)) {
+    child = spawn(cmd[0], cmd.slice(1), { shell, cwd })
+  } else if (typeof cmd === "string") {
+    const cmdArr = cmd.split(" ");
+    child = spawn(
+      cmdArr[0],
+      cmdArr.slice(1),
+      { shell, cwd },
+    );
+  }
 
   // Runs if the response took more than <timeout> milliseconds.
   const resTimeout = setTimeout(() => {
